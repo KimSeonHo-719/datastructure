@@ -63,7 +63,7 @@ element peek()
         return data[top];
 }
 
-int prec(char op)
+int prec(char op) // 연산자의 우선순위를 반환하는 함수
 {
     switch (op)
     {
@@ -80,35 +80,36 @@ int prec(char op)
     return -1;
 }
 
-void Infix_to_Postfix(char infix[], char post[])
+void Infix_to_Postfix(char infix[], char post[]) // 후위 표기법 변환 함수, prec 함수를 사용하여 연산자의 우선순위를 비교함.
 {
     int len = strlen(infix);
     int i, j = 0;
     int tmp;
-    int top_op;
-    init_stack();
+    int top_op; // 스택의 top에 있는 연산자 = top_oprerator
+    init_stack(); // 스택 초기화
     for (i = 0; i < len; i++)
     {
         switch (infix[i])
         {
         case '+': case'*': case '-':case'/':
-            while (!is_empty() && )
+            while (!is_empty() && prec(infix[i]) <= prec(peek()))
             {
-                
+                post[j++] = pop();
+                post[j++] = ' ';
             }
-            
+            push(infix[i]);
             break;
         case '(':
-            
+            push(infix[i]);
             break;
         case ')':
-            
-            while ()
+            top_op = pop();
+            while (top_op != '(')
             {
-                
-                
-                
-            }
+                post[j++] = top_op;
+                post[j++] = ' ';
+                top_op = pop();
+            }   
             break;
             case ' ':
                 break;
@@ -139,7 +140,7 @@ int main() {
     char in[1000] = { 0 };
     char post[1000] = { 0 };
 
-    //input string
+    //input stringß
     while ((t = getchar()) != EOF)
         in[i++] = t;
     in[i] = '\0';
